@@ -4,7 +4,7 @@ export const Header = () => {
   return (
     <header>
       <div>
-        <NavLink to="/">ThapaReactQuery</NavLink>
+        <NavLink to="/">Tanstack/ReactQuery</NavLink>
         <ul>
           <li>
             <NavLink to="/">Home</NavLink>
