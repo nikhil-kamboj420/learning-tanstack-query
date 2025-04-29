@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPosts } from "../api/FetchApiData";
+import { getAllPost } from "../api/FetchApiData";
 
 export const FetchOld = () => {
   const [posts, setPost] = useState([]);
@@ -7,9 +7,9 @@ export const FetchOld = () => {
   const [isError, setError] = useState(false);
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchAllPosts = async () => {
       try {
-        const res = await getPosts();
+        const res = await getAllPost();
         if (res.status === 200) {
           setPost(res.data);
           setLoading(false);
@@ -19,25 +19,22 @@ export const FetchOld = () => {
         setLoading(false);
       }
     };
-    fetchPosts();
+    fetchAllPosts();
     return () => {};
   }, []);
 
   // Conditional rendering based on loading, error, and posts data
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading && posts.length === 0) return <h1>Loading...</h1>;
   if (isError) return <p>Error : Something went wrong!</p>;
-  return (
+  if (posts.length > 0) return (
     <ul className="section-accordion">
-      {posts.map((curElem) => {
-        const { id, title, body } = curElem;
-        return (
-          <li key={id}>
-            <p>{id}</p>
-            <h2>{title}</h2>
-            <p>{body}</p>
-          </li>
-        );
-      })}
+      {posts.map((post) => (
+        <li key={post.id}>
+          <p>{post.id}</p>
+          <h2>{post.title}</h2>
+          <p>{post.body}</p>
+        </li>
+      ))}
     </ul>
   );
 };
