@@ -4,10 +4,18 @@ const api = axios.create({
   baseURL: "https://jsonplaceholder.typicode.com",
 });
 
-
-// Retrieves a list of posts from the API
-export const getPosts = () => {
+export const getAllPost =async()=>{
   return api.get("/posts");
+}
+
+// to fetch the data
+export const fetchPosts = async (pageNumber) => {
+  try {
+    const res = await api.get(`/posts?_start=${pageNumber}&_limit=3`);
+    return res.status === 200 ? res.data : [];
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // to fetch the indv. data
@@ -21,3 +29,11 @@ export const FetchIndvPost= async(id) => {
 }
 
 
+// to delete the post
+export const deletePost = (id) => {
+  return api.delete(`/posts/${id}`);
+};
+// to Update the post
+export const updatePost = (id) => {
+  return api.patch(`/posts/${id}`, { title: "I have updated" });
+};
