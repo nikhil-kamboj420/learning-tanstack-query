@@ -1,32 +1,30 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchUsers } from "../api/FetchApiData";
 import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 export const InfiniteScroll = () => {
-  const { data,isFetchingNextPage,hasNextPage ,fetchNextPage, status} = useInfiniteQuery({
-    queryKey: ["users"],
-    queryFn: fetchUsers,
-    getNextPageParam: (lastPage, allPages) => {
-      console.log("lastPage", lastPage, allPages);
-      return lastPage.length === 10 ? allPages.length + 1 : undefined;
-    },
+  const { data, isFetchingNextPage, hasNextPage, fetchNextPage, status } =
+    useInfiniteQuery({
+      queryKey: ["users"],
+      queryFn: fetchUsers,
+      getNextPageParam: (lastPage, allPages) => {
+        console.log("lastPage", lastPage, allPages);
+        return lastPage.length === 10 ? allPages.length + 1 : undefined;
+      },
+    });
+
+  const { ref, inView } = useInView({
+    threshold: 1,
   });
-
-  const handleScroll = ()=>{
-    const bottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight -1 ;
-
-    if(bottom && hasNextPage){
-        fetchNextPage();
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
     }
-  }
+  }, [inView, hasNextPage, fetchNextPage]);
 
-  useEffect(()=>{
-    window.addEventListener("scroll", handleScroll);
-    return ()=> window.removeEventListener("scroll", handleScroll);
-  },[])
-
-  if (status === "loading") return <div>Loading...</div>
-    if (status === "error") return <div>Error fetching data</div>
+  if (status === "loading") return <div>Loading...</div>;
+  if (status === "error") return <div>Error fetching data</div>;
   return (
     <>
       <div>
@@ -50,7 +48,15 @@ export const InfiniteScroll = () => {
             ))}
           </ul>
         ))}
-        <div style={{ padding: "20px", textAlign: "center" , fontSize : "20px", color : "white"}}>
+        <div
+          ref={ref}
+          style={{
+            padding: "20px",
+            textAlign: "center",
+            fontSize: "20px",
+            color: "white",
+          }}
+        >
           {isFetchingNextPage
             ? "Loading more..."
             : hasNextPage

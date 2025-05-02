@@ -4,9 +4,9 @@ const api = axios.create({
   baseURL: "https://jsonplaceholder.typicode.com",
 });
 
-export const getAllPost =async()=>{
+export const getAllPost = async () => {
   return api.get("/posts");
-}
+};
 
 // to fetch the data
 export const fetchPosts = async (pageNumber) => {
@@ -19,15 +19,14 @@ export const fetchPosts = async (pageNumber) => {
 };
 
 // to fetch the indv. data
-export const FetchIndvPost= async(id) => {
-  try{
+export const FetchIndvPost = async (id) => {
+  try {
     const res = await api.get(`/posts/${id}`);
-   return  res.status === 200 ?  res.data :[];
-  }catch(e){
+    return res.status === 200 ? res.data : [];
+  } catch (e) {
     console.log(e);
   }
-}
-
+};
 
 // to delete the post
 export const deletePost = (id) => {
@@ -37,7 +36,6 @@ export const deletePost = (id) => {
 export const updatePost = (id) => {
   return api.patch(`/posts/${id}`, { title: "I have updated" });
 };
-
 
 // infintie scrolling
 

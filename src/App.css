@@ -112,7 +112,7 @@ footer {
     list-style-position: inside;
     border-left: 0.2rem solid #fff;
     list-style: none;
-    box-shadow: 2px 3px 10px  #111111;
+    box-shadow: 2px 3px 10px #111111;
     text-decoration: none;
   }
 
@@ -126,7 +126,6 @@ footer {
     }
   }
 }
-
 
 .accordion-grid {
   display: flex;

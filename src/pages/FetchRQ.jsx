@@ -6,8 +6,8 @@ import { deletePost, fetchPosts, updatePost } from "../api/FetchApiData";
 export const FetchRQ = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const { data, isError, error, isLoading } = useQuery({
-    queryKey: ["posts" , pageNumber],
-    queryFn: ()=>fetchPosts(pageNumber),
+    queryKey: ["posts", pageNumber],
+    queryFn: () => fetchPosts(pageNumber),
     // gcTime : 30000,
     // staleTime : 7000,
     // refetchInterval : 1000,
@@ -26,16 +26,16 @@ export const FetchRQ = () => {
     },
   });
 
-    // Update from caches
+  // Update from caches
   const updateMutation = useMutation({
     mutationFn: (id) => updatePost(id),
     onSuccess: (apiData, postId) => {
       queryClient.setQueryData(["posts", pageNumber], (postData) => {
-        return postData.map((curPost)=>{
+        return postData.map((curPost) => {
           return curPost.id === postId
-          ? { ...curPost, title: apiData.data.title }
-          : curPost;
-        })
+            ? { ...curPost, title: apiData.data.title }
+            : curPost;
+        });
       });
     },
   });
@@ -60,8 +60,8 @@ export const FetchRQ = () => {
                 <h2>{title}</h2>
                 <p>{body}</p>
               </NavLink>
-              <button onClick={() => deleteMutation.mutate(id) }>Delete</button>
-              <button onClick={() => updateMutation.mutate(id) }>Update</button>
+              <button onClick={() => deleteMutation.mutate(id)}>Delete</button>
+              <button onClick={() => updateMutation.mutate(id)}>Update</button>
             </li>
           );
         })}
