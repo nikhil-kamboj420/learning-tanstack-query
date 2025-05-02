@@ -22,7 +22,7 @@ export const FetchIndv = () => {
         <p>Title: {data.title}</p>
         <p>Body: {data.body}</p>
       </div>
-      <NavLink to="/rq">
+      <NavLink to={`/rq`}>
         <button>Go Back</button>
       </NavLink>
     </div>
