@@ -7,7 +7,8 @@ import { MainLayout } from "./components/Layout/MainLayout";
 import { Home } from "./Pages/Home";
 import { FetchOld } from "./pages/FetchOld";
 import { FetchRQ } from "./pages/FetchRQ";
-import { FetchIndv } from "./pages/FetchIndv";
+import { FetchIndv } from "./components/UI/FetchIndv";
+import { InfiniteScroll } from "./pages/InfiniteScroll";
 
 
 // Create a router
@@ -32,10 +33,10 @@ const router = createBrowserRouter([
         path: "/rq/:id",
         element: <FetchIndv/>,
       },
-      // {
-      //   path: "/infinite",
-      //   element: <InfiniteScroll />,
-      // },
+      {
+        path: "/infinite",
+        element: <InfiniteScroll />,
+      },
     ],
   },
 ]);
